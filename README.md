@@ -1,2 +1,1 @@
-# ai-project
-Path-Blocker Game
+# path-blocker
