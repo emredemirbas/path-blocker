@@ -3,7 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-public class Level {
+public class Level implements Comparable<Level> {
 
     private static final Direction[] ALL_DIRECTIONS = {Direction.LEFT, Direction.RIGHT, Direction.UP, Direction.DOWN};
 
@@ -61,6 +61,20 @@ public class Level {
         } catch (IOException e) {
             System.err.println("An error occurred while reading the file: " + e.getMessage());
         }
+    }
+
+    public Level(Level level) {
+        this.world = level.world;
+        this.agentPositions = new ArrayList<>(level.agentPositions);
+        this.width = level.width;
+        this.height = level.height;
+        this.goalPosition = level.goalPosition;
+        this.startPosition = level.startPosition;
+    }
+
+    public Level(Level level, Direction direction) {
+        this(level);
+        this.moveAgent(direction);
     }
 
     public int getWidth() {
@@ -186,5 +200,17 @@ public class Level {
         }
     }
 
+    public int getMovementAmount() {
+        return this.agentPositions.size();
+    }
 
+    public boolean isAgentAtGoalPosition() {
+        return this.getAgentX() == this.goalPosition[0] && this.getAgentY() == this.goalPosition[1];
+    }
+
+
+    @Override
+    public int compareTo(Level other) {
+        return Integer.compare(this.agentPositions.size(), other.agentPositions.size());
+    }
 }
