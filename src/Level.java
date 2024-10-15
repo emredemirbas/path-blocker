@@ -9,9 +9,7 @@ public class Level {
 
     private boolean[][] world;
 
-    private List<int[]> agentPositions;
-
-    private Agent agent;
+    private final List<int[]> agentPositions;
 
     private int width;
 
@@ -21,9 +19,9 @@ public class Level {
 
     private int[] startPosition;
 
-    public Level(int width, int height, int[] goalPosition, int[] startPosition, int[][] wallPositions, Agent agent) {
+
+    public Level(int width, int height, int[] goalPosition, int[] startPosition, int[][] wallPositions) {
         this.world = new boolean[width][height];
-        this.agent = agent;
         this.width = width;
         this.height = height;
         this.goalPosition = goalPosition;
@@ -146,6 +144,16 @@ public class Level {
         this.putWall(x, y);
     }
 
+    public boolean isMovable() {
+        int countMovableDirections = 0;
+        for (Direction d : Level.ALL_DIRECTIONS) {
+            if (this.isMovable(d)) {
+                countMovableDirections++;
+            }
+        }
+        return countMovableDirections == 0;
+    }
+
     private boolean isMovable(Direction direction) {
         int[] nextPositions = this.getNextAgentXY(direction);
         int x = nextPositions[0];
@@ -172,12 +180,11 @@ public class Level {
     }
 
     public void moveAgent(Direction direction) {
-        int x = this.getAgentX();
-        int y = this.getAgentY();
         while (this.isMovable(direction)) {
             this.putWall(direction);
             this.agentPositions.add(this.getNextAgentXY(direction));
         }
     }
+
 
 }
