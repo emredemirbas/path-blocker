@@ -32,7 +32,7 @@ public class Level implements Comparable<Level> {
         for (int[] wallPosition : wallPositions) {
             this.world[wallPosition[0]][wallPosition[1]] = true;
         }
-
+        this.putWall(startPosition[0], startPosition[1]);
     }
 
     public Level(String path) {
@@ -61,6 +61,7 @@ public class Level implements Comparable<Level> {
         } catch (IOException e) {
             System.err.println("An error occurred while reading the file: " + e.getMessage());
         }
+        this.putWall(startPosition[0], startPosition[1]);
     }
 
     public Level(Level level) {
@@ -70,6 +71,7 @@ public class Level implements Comparable<Level> {
         this.height = level.height;
         this.goalPosition = level.goalPosition;
         this.startPosition = level.startPosition;
+        this.putWall(startPosition[0], startPosition[1]);
     }
 
     public Level(Level level, Direction direction) {
@@ -199,7 +201,11 @@ public class Level implements Comparable<Level> {
 
     public void moveAgent(Direction direction) {
         while (this.isMovable(direction)) {
-            this.putWall(direction);
+            // this.agentPositions.add(this.getNextAgentXY(direction));
+            // this.putWall(Direction.getNegatedDirection(direction));
+            if (!this.isAgentAtGoalPosition()) {
+                this.putWall(this.getAgentX(), this.getAgentY());
+            }
             this.agentPositions.add(this.getNextAgentXY(direction));
         }
     }
@@ -209,6 +215,7 @@ public class Level implements Comparable<Level> {
     }
 
     public boolean isAgentAtGoalPosition() {
+        System.out.printf("Agent:(%d,%d) | Goal:(%d,%d)\n", this.getAgentX(), this.getAgentY(), this.getGoalPosition()[0], this.getGoalPosition()[1]);
         return this.getAgentX() == this.goalPosition[0] && this.getAgentY() == this.goalPosition[1];
     }
 
