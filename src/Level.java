@@ -61,28 +61,26 @@ public class Level {
         }
     }
 
-    private void putWall(int x, int y) {
-        if (x < this.width && y < this.height && x >= 0 && y >= 0) {
-            this.world[x][y] = true;
-        }
+    public int getWidth() {
+        return width;
     }
 
-    private void putWall(Direction direction) {
-        int x = this.getAgentX();
-        int y = this.getAgentY();
-        switch (direction) {
-            case LEFT -> x = this.getAgentLeft();
-            case RIGHT -> x = this.getAgentRight();
-            case UP -> y = this.getAgentUp();
-            case DOWN -> y = this.getAgentDown();
-        }
-        this.putWall(x, y);
+    public int getHeight() {
+        return height;
     }
 
-//    private boolean isMovable(int x, int y){
-//
-//    }
+    public int[] getGoalPosition() {
+        return goalPosition;
+    }
 
+    public int[] getStartPosition() {
+        return startPosition;
+    }
+
+    public boolean[][] getWorld() {
+        return world;
+    }
+    
     private int getAgentX() {
         return this.agentPositions.get(this.agentPositions.size() - 1)[0];
     }
@@ -95,7 +93,7 @@ public class Level {
         return new int[]{getAgentX(), getAgentY()};
     }
 
-    private int[] nextAgentXY(Direction direction) {
+    private int[] getNextAgentXY(Direction direction) {
         int x = this.getAgentX();
         int y = this.getAgentY();
         if (direction == Direction.LEFT) {
@@ -126,20 +124,29 @@ public class Level {
         return this.getAgentY() - 1;
     }
 
-    private boolean isMovable(Direction direction) {
-        int currentX = getAgentX();
-        int currentY = getAgentY();
-        switch (direction) {
-            case LEFT:
-                return this.isCoordinateInsideWorld(currentX - 1, currentY) && !this.isWallAtCoordinate(currentX - 1, currentY);
-            case RIGHT:
-                return this.isCoordinateInsideWorld(currentX + 1, currentY) && !this.isWallAtCoordinate(currentX + 1, currentY);
-            case UP:
-                return this.isCoordinateInsideWorld(currentX, currentY + 1) && !this.isWallAtCoordinate(currentX, currentY + 1);
-            case DOWN:
-                return this.isCoordinateInsideWorld(currentX, currentY - 1) && !this.isWallAtCoordinate(currentX, currentY - 1);
+    private void putWall(int x, int y) {
+        if (x < this.width && y < this.height && x >= 0 && y >= 0) {
+            this.world[x][y] = true;
         }
-        return false;
+    }
+
+    private void putWall(Direction direction) {
+        int x = this.getAgentX();
+        int y = this.getAgentY();
+        switch (direction) {
+            case LEFT -> x = this.getAgentLeft();
+            case RIGHT -> x = this.getAgentRight();
+            case UP -> y = this.getAgentUp();
+            case DOWN -> y = this.getAgentDown();
+        }
+        this.putWall(x, y);
+    }
+
+    private boolean isMovable(Direction direction) {
+        int[] nextPositions = this.getNextAgentXY(direction);
+        int x = nextPositions[0];
+        int y = nextPositions[1];
+        return this.isCoordinateInsideWorld(x, y) && !this.isWallAtCoordinate(x, y);
     }
 
     private boolean isCoordinateInsideWorld(int x, int y) {
@@ -153,7 +160,7 @@ public class Level {
     public List<Direction> getMovableDirections() {
         List<Direction> movableDirections = new ArrayList<>();
 
-        Direction[] directions = {Direction.LEFT, Direction.RIGHT, Direction.DOWN, Direction.UP};
+        Direction[] directions = {Direction.LEFT, Direction.RIGHT, Direction.UP, Direction.DOWN};
 
         for (Direction d : directions) {
             if (this.isMovable(d)) {
@@ -169,28 +176,8 @@ public class Level {
         int y = this.getAgentY();
         while (this.isMovable(direction)) {
             this.putWall(direction);
-            this.agentPositions.add(this.nextAgentXY(direction));
+            this.agentPositions.add(this.getNextAgentXY(direction));
         }
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int[] getGoalPosition() {
-        return goalPosition;
-    }
-
-    public int[] getStartPosition() {
-        return startPosition;
-    }
-
-    public boolean[][] getWorld() {
-        return world;
     }
 
 }
