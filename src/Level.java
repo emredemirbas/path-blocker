@@ -64,7 +64,7 @@ public class Level implements Comparable<Level> {
     }
 
     public Level(Level level) {
-        this.world = level.world;
+        this.world = Arrays.stream(level.getWorld()).map(boolean[]::clone).toArray(boolean[][]::new);
         this.agentPositions = new ArrayList<>(level.agentPositions);
         this.width = level.width;
         this.height = level.height;
@@ -91,6 +91,10 @@ public class Level implements Comparable<Level> {
 
     public int[] getStartPosition() {
         return startPosition;
+    }
+
+    public List<int[]> getAgentPositions() {
+        return agentPositions;
     }
 
     public boolean[][] getWorld() {

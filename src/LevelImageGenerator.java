@@ -40,6 +40,22 @@ public class LevelImageGenerator {
             }
         }
 
+        int count = 1; // Initialize a counter to keep track of the appearance order
+        for (int[] agentPosition : level.getAgentPositions()) {
+            g2d.setColor(Color.green);
+            int pixelCoordinateX = agentPosition[0] * cellSize;
+            int pixelCoordinateY = agentPosition[1] * cellSize;
+            g2d.fillRect(pixelCoordinateX, pixelCoordinateY, cellSize, cellSize);
+
+            // Set the color for the number text to contrast with the cell color
+            g2d.setColor(Color.black);
+
+            // Draw the number in the center of the cell
+            g2d.drawString(String.valueOf(count), pixelCoordinateX + cellSize / 2, pixelCoordinateY + cellSize / 2);
+
+            count++; // Increment the counter
+        }
+
         g2d.setColor(Color.RED);
         int goalXPosition = level.getGoalPosition()[0] * cellSize;
         int goalYPosition = level.getGoalPosition()[1] * cellSize;
