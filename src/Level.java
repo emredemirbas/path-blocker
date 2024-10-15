@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.*;
 
 public class Level {
+
+    private static final Direction[] ALL_DIRECTIONS = {Direction.LEFT, Direction.RIGHT, Direction.UP, Direction.DOWN};
+
     private boolean[][] world;
 
     private List<int[]> agentPositions;
@@ -25,6 +28,7 @@ public class Level {
         this.height = height;
         this.goalPosition = goalPosition;
         this.startPosition = startPosition;
+        this.agentPositions = new ArrayList<>();
         this.agentPositions.add(startPosition);
 
         for (int[] wallPosition : wallPositions) {
@@ -80,7 +84,7 @@ public class Level {
     public boolean[][] getWorld() {
         return world;
     }
-    
+
     private int getAgentX() {
         return this.agentPositions.get(this.agentPositions.size() - 1)[0];
     }
@@ -90,7 +94,7 @@ public class Level {
     }
 
     private int[] getAgentXY() {
-        return new int[]{getAgentX(), getAgentY()};
+        return new int[]{this.getAgentX(), this.getAgentY()};
     }
 
     private int[] getNextAgentXY(Direction direction) {
@@ -146,28 +150,24 @@ public class Level {
         int[] nextPositions = this.getNextAgentXY(direction);
         int x = nextPositions[0];
         int y = nextPositions[1];
-        return this.isCoordinateInsideWorld(x, y) && !this.isWallAtCoordinate(x, y);
+        return this.isValidCoordinate(x, y) && !this.hasWallAt(x, y);
     }
 
-    private boolean isCoordinateInsideWorld(int x, int y) {
+    private boolean isValidCoordinate(int x, int y) {
         return x >= 0 && x < this.width && y >= 0 && y < this.height;
     }
 
-    private boolean isWallAtCoordinate(int x, int y) {
-        return this.world[x][y];
+    private boolean hasWallAt(int x, int y) {
+        return this.isValidCoordinate(x, y) && this.world[x][y];
     }
 
     public List<Direction> getMovableDirections() {
         List<Direction> movableDirections = new ArrayList<>();
-
-        Direction[] directions = {Direction.LEFT, Direction.RIGHT, Direction.UP, Direction.DOWN};
-
-        for (Direction d : directions) {
+        for (Direction d : Level.ALL_DIRECTIONS) {
             if (this.isMovable(d)) {
                 movableDirections.add(d);
             }
         }
-
         return movableDirections;
     }
 
