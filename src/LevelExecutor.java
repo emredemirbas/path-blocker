@@ -1,18 +1,22 @@
+import java.util.Arrays;
 import java.util.Stack;
 
 public class LevelExecutor {
 
     public static void executeLevel(String filePath, String outputFolderName, Agent agent) {
-        Level level = agent.getSolutionLevel(new Level(filePath));
+        Level solutionLevel = agent.getSolutionLevel(new Level(filePath));
+        for (int[] arr : solutionLevel.getAgentPositions()) {
+            System.out.println(Arrays.toString(arr));
+        }
         Stack<Level> stack = new Stack<>();
 
-        // Push each parent level into the stack to trace back the solution path
-        while (level.getParentLevel() != null) {
-            stack.push(level);
-            level = level.getParentLevel();
+        Level ptr = solutionLevel;
+        while (ptr != null) {
+            stack.push(ptr);
+            ptr = ptr.getParentLevel();
         }
 
-        int count = 1;
+        int count = 0;
         int totalDigits = 4;  // Get the number of digits to pad
 
         // Pop the levels and save images with formatted names

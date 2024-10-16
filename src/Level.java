@@ -21,9 +21,9 @@ public class Level implements Comparable<Level> {
 
     private Level parentLevel;
 
-    public Level(String path) {
+    public Level(String fileName) {
         this.agentPositions = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("s")) {
@@ -95,18 +95,14 @@ public class Level implements Comparable<Level> {
     }
 
     public int getAgentX() {
-        return this.agentPositions.get(this.agentPositions.size() - 1)[0];
+        return this.agentPositions.get(this.agentPositions.size() - 1)[1]; //
     }
 
     public int getAgentY() {
-        return this.agentPositions.get(this.agentPositions.size() - 1)[1];
+        return this.agentPositions.get(this.agentPositions.size() - 1)[0]; //
     }
 
-    private int[] getAgentXY() {
-        return new int[]{this.getAgentX(), this.getAgentY()};
-    }
-
-    private int[] getNextAgentXY(Direction direction) {
+    private int[] getNextAgentYX(Direction direction) { //
         int x = this.getAgentX();
         int y = this.getAgentY();
         if (direction == Direction.LEFT) {
@@ -118,7 +114,7 @@ public class Level implements Comparable<Level> {
         } else if (direction == Direction.DOWN) {
             y = this.getAgentDown();
         }
-        return new int[]{x, y};
+        return new int[]{y, x}; //
     }
 
     private int getAgentLeft() {
@@ -138,10 +134,9 @@ public class Level implements Comparable<Level> {
     }
 
 
-
-    private void putWall(int x, int y) {
+    private void putWall(int y, int x) { //
         if (x < this.width && y < this.height && x >= 0 && y >= 0) {
-            this.world[x][y] = true;
+            this.world[y][x] = true;
         }
     }
 
@@ -154,7 +149,7 @@ public class Level implements Comparable<Level> {
             case UP -> y = this.getAgentUp();
             case DOWN -> y = this.getAgentDown();
         }
-        this.putWall(x, y);
+        this.putWall(y, x);
     }
 
     public boolean isMovable() {
@@ -168,18 +163,18 @@ public class Level implements Comparable<Level> {
     }
 
     private boolean isMovable(Direction direction) {
-        int[] nextPositions = this.getNextAgentXY(direction);
-        int x = nextPositions[0];
-        int y = nextPositions[1];
-        return this.isValidCoordinate(x, y) && !this.hasWallAt(x, y) && !this.isAgentAtGoalPosition();
+        int[] nextPositions = this.getNextAgentYX(direction);
+        int x = nextPositions[1];
+        int y = nextPositions[0];
+        return this.isValidCoordinate(y, x) && !this.hasWallAt(y, x) && !this.isAgentAtGoalPosition();
     }
 
-    private boolean isValidCoordinate(int x, int y) {
+    private boolean isValidCoordinate(int y, int x) {
         return x >= 0 && x < this.width && y >= 0 && y < this.height;
     }
 
-    private boolean hasWallAt(int x, int y) {
-        return this.isValidCoordinate(x, y) && this.world[x][y];
+    private boolean hasWallAt(int y, int x) {
+        return this.isValidCoordinate(y, x) && this.world[y][x];
     }
 
     public List<Direction> getMovableDirections() {
@@ -199,7 +194,7 @@ public class Level implements Comparable<Level> {
             // if (!this.isAgentAtGoalPosition()) {
             //     this.putWall(this.getAgentX(), this.getAgentY());
             // }
-            this.agentPositions.add(this.getNextAgentXY(direction));
+            this.agentPositions.add(this.getNextAgentYX(direction));
             this.putWall(Direction.getNegatedDirection(direction));
             if (this.isAgentAtGoalPosition()) {
                 return;
@@ -213,7 +208,7 @@ public class Level implements Comparable<Level> {
 
     public boolean isAgentAtGoalPosition() {
         // System.out.printf("Agent:(%d,%d) | Goal:(%d,%d)\n", this.getAgentX(), this.getAgentY(), this.getGoalPosition()[0], this.getGoalPosition()[1]);
-        return this.getAgentX() == this.goalPosition[0] && this.getAgentY() == this.goalPosition[1];
+        return this.getAgentX() == this.goalPosition[1] && this.getAgentY() == this.goalPosition[0];
     }
 
 

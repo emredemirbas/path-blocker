@@ -60,9 +60,9 @@ public class LevelVisualizer {
 
         // Draw walls (if needed)
         boolean[][] world = level.getWorld();
-        for (int x = 0; x < level.getWidth(); x++) {
-            for (int y = 0; y < level.getHeight(); y++) {
-                if (world[x][y]) {
+        for (int y = 0; y < level.getHeight(); y++) {
+            for (int x = 0; x < level.getWidth(); x++) {
+                if (world[y][x]) {
                     g2d.setColor(blockColor);
                     int pixelCoordinateX = x * cellSize;
                     int pixelCoordinateY = y * cellSize;
@@ -84,8 +84,8 @@ public class LevelVisualizer {
 
         // Draw the goal position
         g2d.setColor(goalColor);
-        int goalXPosition = level.getGoalPosition()[0] * cellSize;
-        int goalYPosition = level.getGoalPosition()[1] * cellSize;
+        int goalXPosition = level.getGoalPosition()[1] * cellSize;
+        int goalYPosition = level.getGoalPosition()[0] * cellSize;
         g2d.fillRect(goalXPosition, goalYPosition, cellSize, cellSize);
 
         // Draw the start position
