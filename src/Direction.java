@@ -4,8 +4,8 @@ public enum Direction {
     UP,
     DOWN;
 
-    public static Direction getNegatedDirection(Direction d) {
-        return switch (d) {
+    public static Direction getNegatedDirection(Direction direction) {
+        return switch (direction) {
             case LEFT -> RIGHT;
             case RIGHT -> LEFT;
             case UP -> DOWN;

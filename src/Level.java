@@ -203,10 +203,14 @@ public class Level implements Comparable<Level> {
         while (this.isMovable(direction)) {
             // this.agentPositions.add(this.getNextAgentXY(direction));
             // this.putWall(Direction.getNegatedDirection(direction));
-            if (!this.isAgentAtGoalPosition()) {
-                this.putWall(this.getAgentX(), this.getAgentY());
-            }
+            // if (!this.isAgentAtGoalPosition()) {
+            //     this.putWall(this.getAgentX(), this.getAgentY());
+            // }
             this.agentPositions.add(this.getNextAgentXY(direction));
+            this.putWall(Direction.getNegatedDirection(direction));
+            if (this.isAgentAtGoalPosition()) {
+                return;
+            }
         }
     }
 
@@ -215,7 +219,7 @@ public class Level implements Comparable<Level> {
     }
 
     public boolean isAgentAtGoalPosition() {
-        System.out.printf("Agent:(%d,%d) | Goal:(%d,%d)\n", this.getAgentX(), this.getAgentY(), this.getGoalPosition()[0], this.getGoalPosition()[1]);
+        // System.out.printf("Agent:(%d,%d) | Goal:(%d,%d)\n", this.getAgentX(), this.getAgentY(), this.getGoalPosition()[0], this.getGoalPosition()[1]);
         return this.getAgentX() == this.goalPosition[0] && this.getAgentY() == this.goalPosition[1];
     }
 

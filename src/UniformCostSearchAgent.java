@@ -18,7 +18,7 @@ public class UniformCostSearchAgent extends Agent {
 
         while (!fringe.isEmpty()) {
             Level level = fringe.poll();
-            LevelVisualizer.displayLevelImage(level);
+            // LevelVisualizer.displayLevelImage(level);
             // Thread.sleep(5 * 1000);
 
             if (level.isAgentAtGoalPosition() && lowestMovementAmount > level.getMovementAmount()) {
