@@ -6,18 +6,14 @@ import java.util.Arrays;
 // TODO 2: txt file'ları tek bir folder içinde (ör. txtfiles); output png'leri ise farklı bir folder içinde (outputs) tutmak daha iyi olabilir.
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        Agent agent = new UniformCostSearchAgent();
+        //Agent agent = new UniformCostSearchAgent();
+        //Agent agent = new BreathFirstSearchAgent();
+        Agent agent = new DepthFirstSearchAgent();
+        //Agent agent = new DepthFirstSearchWithRecursionAgent();
         Level level = new Level("levels/level02/level02.txt");
 
         Level solutionLevel = agent.getSolutionLevel(level);
         System.out.println(solutionLevel == null);
 
-        LevelImageGenerator.createAndSaveLevelImage("level02res.png", solutionLevel);
-
-
-
-        // for (int[] arr : solutionLevel.getAgentPositions()) {
-        //    System.out.println(Arrays.toString(arr));
-        // }
     }
 }

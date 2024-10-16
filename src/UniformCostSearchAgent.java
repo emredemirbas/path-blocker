@@ -15,6 +15,7 @@ public class UniformCostSearchAgent extends Agent {
         PriorityQueue<Level> fringe = new PriorityQueue<>();
 
         fringe.add(initialLevel);
+        int count = 0;
 
         while (!fringe.isEmpty()) {
             Level level = fringe.poll();
@@ -34,31 +35,4 @@ public class UniformCostSearchAgent extends Agent {
 
         return bestSolution;
     }
-
-
-    private void nextMove(Level level) {
-        // base case
-        if (!level.isMovable()) {
-            return;
-        }
-
-        if (level.isAgentAtGoalPosition() && lowestMovementAmount > level.getMovementAmount()) {
-            lowestMovementAmount = level.getMovementAmount();
-            bestSolution = level;
-        }
-
-
-        List<Direction> possibleDirections = level.getMovableDirections();
-
-        for (Direction direction : possibleDirections) {
-            Level childLevel = new Level(level, direction);
-
-            // TODO ....
-
-            nextMove(childLevel);
-        }
-
-    }
-
-
 }

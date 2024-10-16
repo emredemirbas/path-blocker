@@ -19,21 +19,7 @@ public class Level implements Comparable<Level> {
 
     private int[] startPosition;
 
-
-    public Level(int width, int height, int[] goalPosition, int[] startPosition, int[][] wallPositions) {
-        this.world = new boolean[width][height];
-        this.width = width;
-        this.height = height;
-        this.goalPosition = goalPosition;
-        this.startPosition = startPosition;
-        this.agentPositions = new ArrayList<>();
-        this.agentPositions.add(startPosition);
-
-        for (int[] wallPosition : wallPositions) {
-            this.world[wallPosition[0]][wallPosition[1]] = true;
-        }
-        this.putWall(startPosition[0], startPosition[1]);
-    }
+    private Level parentLevel;
 
     public Level(String path) {
         this.agentPositions = new ArrayList<>();
@@ -72,6 +58,7 @@ public class Level implements Comparable<Level> {
         this.goalPosition = level.goalPosition;
         this.startPosition = level.startPosition;
         this.putWall(startPosition[0], startPosition[1]);
+        this.parentLevel = level;
     }
 
     public Level(Level level, Direction direction) {
@@ -101,6 +88,10 @@ public class Level implements Comparable<Level> {
 
     public boolean[][] getWorld() {
         return world;
+    }
+
+    public Level getParentLevel() {
+        return parentLevel;
     }
 
     private int getAgentX() {
@@ -146,6 +137,8 @@ public class Level implements Comparable<Level> {
         return this.getAgentY() - 1;
     }
 
+
+
     private void putWall(int x, int y) {
         if (x < this.width && y < this.height && x >= 0 && y >= 0) {
             this.world[x][y] = true;
@@ -178,7 +171,7 @@ public class Level implements Comparable<Level> {
         int[] nextPositions = this.getNextAgentXY(direction);
         int x = nextPositions[0];
         int y = nextPositions[1];
-        return this.isValidCoordinate(x, y) && !this.hasWallAt(x, y);
+        return this.isValidCoordinate(x, y) && !this.hasWallAt(x, y) && !this.isAgentAtGoalPosition();
     }
 
     private boolean isValidCoordinate(int x, int y) {
