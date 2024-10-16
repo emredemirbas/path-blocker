@@ -6,16 +6,15 @@ public class UniformCostSearchAgent extends Agent {
 
     public UniformCostSearchAgent() {
         bestSolution = null;
-        lowestMovementAmount = Integer.MAX_VALUE; // büyük
+        lowestMovementAmount = Integer.MAX_VALUE;
     }
 
     // TODO
     @Override
-    public Level getSolutionLevel(Level initialLevel) throws InterruptedException {
+    public Level getSolutionLevel(Level initialLevel) {
         PriorityQueue<Level> fringe = new PriorityQueue<>();
 
         fringe.add(initialLevel);
-        int count = 0;
 
         while (!fringe.isEmpty()) {
             Level level = fringe.poll();

@@ -94,11 +94,11 @@ public class Level implements Comparable<Level> {
         return parentLevel;
     }
 
-    private int getAgentX() {
+    public int getAgentX() {
         return this.agentPositions.get(this.agentPositions.size() - 1)[0];
     }
 
-    private int getAgentY() {
+    public int getAgentY() {
         return this.agentPositions.get(this.agentPositions.size() - 1)[1];
     }
 

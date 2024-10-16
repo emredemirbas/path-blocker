@@ -9,6 +9,14 @@ public class LevelVisualizer {
 
     private static final int cellSize = 20; // Adjust this as necessary
 
+    private static final Color agentColor = new Color(244, 204, 68);
+
+    private static final Color backgroundColor = new Color(134, 141, 232, 255);
+
+    private static final Color blockColor = new Color(53, 13, 98, 255);
+
+    private static final Color goalColor = new Color(188, 180, 204, 255);
+
     public static void createAndSaveLevelImage(String path, Level level) {
         // Create the BufferedImage object
         BufferedImage image = createLevelImage(level);
@@ -47,7 +55,7 @@ public class LevelVisualizer {
         Graphics2D g2d = image.createGraphics();
 
         // Set the background color
-        g2d.setColor(Color.BLUE);
+        g2d.setColor(backgroundColor);
         g2d.fillRect(0, 0, width, height);
 
         // Draw walls (if needed)
@@ -55,7 +63,7 @@ public class LevelVisualizer {
         for (int x = 0; x < level.getWidth(); x++) {
             for (int y = 0; y < level.getHeight(); y++) {
                 if (world[x][y]) {
-                    g2d.setColor(Color.BLACK);
+                    g2d.setColor(blockColor);
                     int pixelCoordinateX = x * cellSize;
                     int pixelCoordinateY = y * cellSize;
                     g2d.fillRect(pixelCoordinateX, pixelCoordinateY, cellSize, cellSize);
@@ -63,34 +71,28 @@ public class LevelVisualizer {
             }
         }
 
-        // Draw agents with their order numbers
-        int count = 1; // Initialize a counter to keep track of the appearance order
-        for (int[] agentPosition : level.getAgentPositions()) {
-            g2d.setColor(Color.GREEN);
-            int pixelCoordinateX = agentPosition[0] * cellSize;
-            int pixelCoordinateY = agentPosition[1] * cellSize;
-            g2d.fillRect(pixelCoordinateX, pixelCoordinateY, cellSize, cellSize);
-
-            // Set the color for the number text to contrast with the cell color
-            g2d.setColor(Color.BLACK);
-
-            // Draw the number in the center of the cell
-            g2d.drawString(String.valueOf(count), pixelCoordinateX + cellSize / 2 - 5, pixelCoordinateY + cellSize / 2 + 5); // Adjusted for better centering
-
-            count++; // Increment the counter
-        }
+//        // Draw agents with their order numbers
+//        for (int[] agentPosition : level.getAgentPositions()) {
+//            g2d.setColor(blockColor);
+//            int pixelCoordinateX = agentPosition[0] * cellSize;
+//            int pixelCoordinateY = agentPosition[1] * cellSize;
+//            g2d.fillRect(pixelCoordinateX, pixelCoordinateY, cellSize, cellSize);
+//
+//            // Set the color for the number text to contrast with the cell color
+//            g2d.setColor(blockColor);
+//        }
 
         // Draw the goal position
-        g2d.setColor(Color.RED);
+        g2d.setColor(goalColor);
         int goalXPosition = level.getGoalPosition()[0] * cellSize;
         int goalYPosition = level.getGoalPosition()[1] * cellSize;
         g2d.fillRect(goalXPosition, goalYPosition, cellSize, cellSize);
 
         // Draw the start position
-        g2d.setColor(Color.YELLOW);
-        int startXPosition = level.getStartPosition()[0] * cellSize;
-        int startYPosition = level.getStartPosition()[1] * cellSize;
-        g2d.fillRect(startXPosition, startYPosition, cellSize, cellSize);
+        g2d.setColor(agentColor);
+        int agentX = level.getAgentX() * cellSize;
+        int agentY = level.getAgentY() * cellSize;
+        g2d.fillRect(agentX, agentY, cellSize, cellSize);
 
         // Dispose of the Graphics2D object
         g2d.dispose();

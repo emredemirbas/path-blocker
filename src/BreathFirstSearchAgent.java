@@ -5,7 +5,7 @@ import java.util.Queue;
 public class BreathFirstSearchAgent extends Agent{
 
     @Override
-    public Level getSolutionLevel(Level initialLevel) throws InterruptedException {
+    public Level getSolutionLevel(Level initialLevel) {
         Queue<Level> fringe = new LinkedList<>();
 
         fringe.add(initialLevel);
