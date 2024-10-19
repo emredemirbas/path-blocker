@@ -25,9 +25,9 @@ public class LevelVisualizer {
         try {
             File outputFile = new File(path);
             ImageIO.write(image, "png", outputFile);
-            System.out.printf("Grid image saved as %s\n", path);
+            //System.out.printf("Grid image saved as %s\n", path);
         } catch (IOException e) {
-            System.err.println("Error saving the image: " + e.getMessage());
+            //System.err.println("Error saving the image: " + e.getMessage());
         }
     }
 
