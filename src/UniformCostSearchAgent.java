@@ -1,12 +1,9 @@
 import java.util.*;
 
 public class UniformCostSearchAgent extends Agent {
-//    private Level bestSolution;
-//    private int lowestMovementAmount;
 
     public UniformCostSearchAgent() {
-//        bestSolution = null;
-//        lowestMovementAmount = Integer.MAX_VALUE;
+
     }
 
     @Override
@@ -27,10 +24,8 @@ public class UniformCostSearchAgent extends Agent {
 
             for (Direction direction : level.getMovableDirections()) {
                 Level childLevel = new Level(level, direction);
-                if(bestSolution != null){
-                    if(level.getMovementAmount() > lowestMovementAmount){
-                        continue;
-                    }
+                if (bestSolution != null && level.getMovementAmount() > lowestMovementAmount) {
+                    continue;
                 }
                 fringe.add(childLevel);
             }

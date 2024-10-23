@@ -202,6 +202,7 @@ public class Level implements Comparable<Level> {
         }
     }
 
+
     public int getMovementAmount() {
         return this.agentPositions.size();
     }
