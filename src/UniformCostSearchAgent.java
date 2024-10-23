@@ -1,17 +1,19 @@
 import java.util.*;
 
 public class UniformCostSearchAgent extends Agent {
-    private Level bestSolution;
-    private int lowestMovementAmount;
+//    private Level bestSolution;
+//    private int lowestMovementAmount;
 
     public UniformCostSearchAgent() {
-        bestSolution = null;
-        lowestMovementAmount = Integer.MAX_VALUE;
+//        bestSolution = null;
+//        lowestMovementAmount = Integer.MAX_VALUE;
     }
 
     @Override
     public Level getSolutionLevel(Level initialLevel) {
         PriorityQueue<Level> fringe = new PriorityQueue<>();
+        Level bestSolution = null;
+        int lowestMovementAmount = Integer.MAX_VALUE;
 
         fringe.add(initialLevel);
 

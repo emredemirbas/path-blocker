@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 
 public class LevelVisualizer {
 
-    private static final int cellSize = 20; // Adjust this as necessary
+    private static final int cellSize = 10; // Adjust this as necessary
 
     private static final Color agentColor = new Color(244, 204, 68);
 

@@ -9,9 +9,10 @@ public class LevelExecutor {
         long endTime = System.nanoTime();
         long elapsedTime = endTime - startTime;
         double elapsedTimeInSeconds = elapsedTime / 1_000_000_000.0;
+        System.out.printf("Searching for %s...\n", filePath);
         System.out.println("Elapsed time for search: " + elapsedTimeInSeconds + " seconds");
 
-        if(!solutionLevel.isAgentAtGoalPosition()){
+        if(solutionLevel == null){
             System.out.println("No solution found.");
             return;
         }else{
